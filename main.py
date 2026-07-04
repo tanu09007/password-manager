@@ -1,12 +1,21 @@
-from manager import PasswordManager
+from crypto import generate_key ,save_key ,load_key ,encrypt_password ,decrypt_password
+import os
 
-pm =PasswordManager()
+#generate and save key(only 1st time)
+if not os.path.exists("secret.key"):
+    key = generate_key()
+    save_key(key)
 
-pm.add_password("gmail.com","tan1435@gmail.com","pass123")
-pm.add_password("git.com","tanu","pass45667")
-pm.list_sites()
-print (pm.get_password("gmail.com"))
-print(pm.get_password("git.com"))
-pm.delete_password("git.com")
+#load key
+key = load_key()
+print(f"key loaded:",key)
 
-pm.list_sites()
+#TEST encryption
+password ="mypassword123"
+print(f"\nOriginal password:{password}")
+
+encrypted = encrypt_password(password,key)
+print(f"Encrypted :{encrypted})")
+
+decrypted = decrypt_password(encrypted, key)
+print(f"Decrypted :{decrypted}")
