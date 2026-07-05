@@ -1,23 +1,45 @@
 from manager import PasswordManager
 
-pm = PasswordManager()
+def main():
+  pm = PasswordManager()
+  
+  while True:
+    print("\n Password manager")
+    print("\n1.Add password")
+    print("\n2.Get password")
+    print("\n3.List all sites")
+    print("\n4.Delete password")
+    print("\n5.Exit") 
 
-# Add a password
-pm.add_password("gmail.com","tanu@gmail.com","mypas1234")
-pm.add_password("github.com", "tanu09007", "ghpass456")
+    choice = input("\nEnter choice:")
 
-#list
-pm.list_sites()
+    if choice == "1":
+      site = input("enter site:")
+      username = input("Enter username: ")
+      password = input("enter password: ")
+      pm.add_password(site,username,password)
 
-# Get a password
-result = pm.get_password("gmail.com")
-if result:
-    print(f"\nSite: gmail.com")
-    print(f"username:{result['username']}")
-    print(f"Password:{result['password']}")
+    elif choice == "2":
+      
+      site = input("Enter site: ")
+      result = pm.get_password(site)
+      if result:
+        print(f"\nusername:{result['username']}")
+        print(f"password:{result['password']}")
 
-#delete 1
-pm.delete_password("github.com")
+    elif choice == "3":
+      pm.list_sites()
 
-#list
-pm.list_sites
+    elif choice == "4":
+      site = input("enter site:")
+      pm.delete_password(site)
+
+    elif choice == "5":
+      print("👋 Bye!")
+      break
+
+    else:
+      print("Invalid choice! Enter 1-5 ")
+
+main()
+       
