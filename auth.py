@@ -23,18 +23,24 @@ def setup_master_password():
 
 def verify_master_password():
     """Check if entered password matches saved hash"""
-    password = input("🔑 Enter master password: ")
-    hashed = hash_password(password)
-
-    with open(MASTER_PASSWORD_FILE, "r") as f:
-        saved_hash = f.read()
-
-    if hashed == saved_hash:
-        print("✅ Access granted!")
-        return True
-    else:
-        print("❌ Wrong password! Access denied.")
-        return False
+    tries = 3  # only 3 attempts allowed
+    
+    while tries > 0:
+        password = input("🔑 Enter master password: ")
+        hashed = hash_password(password)
+          
+        with open(MASTER_PASSWORD_FILE, "r") as f:
+            saved_hash = f.read()
+        if hashed == saved_hash:
+            print("✅ Access granted!")
+            return True
+        else:
+            tries -= 1
+            if tries > 0:
+                print(f"❌ Wrong password! {tries} attempts left.")
+            else:
+                print("❌ Too many wrong attempts! Bye!")
+                return False
 
 def check_master_password_exists():
     """Check if master password is already set"""

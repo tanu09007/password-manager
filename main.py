@@ -1,6 +1,7 @@
 from manager import PasswordManager
 from auth import setup_master_password, verify_master_password, check_master_password_exists
 from generator import generate_password
+from strength import check_strength
 
 def main():
     # Master password check
@@ -31,15 +32,25 @@ def main():
             if password == "":
                 password = generate_password()
                 print(f"🎲 Generated password: {password}")
+            # Check strength
+            strength, feedback = check_strength(password)
+            print(f"\nPassword Strength: {strength}")
+            if feedback:
+                print("Suggestions:")
+                for tip in feedback:
+                    print(f"  {tip}")
+
             pm.add_password(site, username, password)
 
         elif choice == "2":
             site = input("Enter site: ")
-            result = pm.get_password(site)
-            if result:
-                print(f"\n👤 Username: {result['username']}")
-                print(f"🔑 Password: {result['password']}")
-
+            try:
+               result = pm.get_password(site)
+               if result:
+                 print(f"\n👤 Username: {result['username']}")
+                 print(f"🔑 Password: {result['password']}")
+            except Exception as e:
+                 print(f"❌ Something went wrong: {e}")
         elif choice == "3":
             pm.list_sites()
 
@@ -49,10 +60,17 @@ def main():
 
         elif choice == "5":
             length = input("Enter password length (default 12): ")
-            length = int(length) if length else 12
-            password = generate_password(length)
-            print(f"🎲 Generated password: {password}")
-
+            try:
+                length = int(length) if length else 12
+                if length < 6:
+                  print("❌ Password length must be at least 6!")
+                else:
+                  password = generate_password(length)
+                  print(f"🎲 Generated password: {password}")
+            except ValueError:
+                  print("❌ Please enter a valid number!")
+                  
+          
         elif choice == "6":
             print("👋 Bye!")
             break
