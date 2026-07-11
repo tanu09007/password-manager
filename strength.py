@@ -1,6 +1,18 @@
 import re
 
 def check_strength(password):
+    """
+    Checks the strength of a password based on 5 rules:
+    1. Minimum 8 characters
+    2. At least 1 uppercase letter
+    3. At least 1 lowercase letter
+    4. At least 1 number
+    5. At least 1 special character
+
+    Returns a tuple:
+    - strength: "Weak", "Medium", or "Strong"
+    - feedback: list of suggestions to improve password
+    """
     score = 0
     feedback = []
 
