@@ -9,7 +9,7 @@ def main():
         setup_master_password()
     
     if not verify_master_password():
-        return  # stop program if wrong password
+        return
 
     pm = PasswordManager()
 
@@ -26,31 +26,33 @@ def main():
 
         if choice == "1":
             site = input("Enter site: ")
-            username = input("Enter username: ")
-            print("Leave blank to generate a random password")
-            password = input("Enter password: ")
-            if password == "":
-                password = generate_password()
-                print(f"🎲 Generated password: {password}")
-            # Check strength
-            strength, feedback = check_strength(password)
-            print(f"\nPassword Strength: {strength}")
-            if feedback:
-                print("Suggestions:")
-                for tip in feedback:
-                    print(f"  {tip}")
-
-            pm.add_password(site, username, password)
+            if site.strip() == "":
+                print("❌ Site name cannot be empty!")
+            else:
+                username = input("Enter username: ")
+                print("Leave blank to generate a random password")
+                password = input("Enter password: ")
+                if password == "":
+                    password = generate_password()
+                    print(f"🎲 Generated password: {password}")
+                strength, feedback = check_strength(password)
+                print(f"\nPassword Strength: {strength}")
+                if feedback:
+                    print("Suggestions:")
+                    for tip in feedback:
+                        print(f"  {tip}")
+                pm.add_password(site, username, password)
 
         elif choice == "2":
             site = input("Enter site: ")
             try:
-               result = pm.get_password(site)
-               if result:
-                 print(f"\n👤 Username: {result['username']}")
-                 print(f"🔑 Password: {result['password']}")
+                result = pm.get_password(site)
+                if result:
+                    print(f"\n👤 Username: {result['username']}")
+                    print(f"🔑 Password: {result['password']}")
             except Exception as e:
-                 print(f"❌ Something went wrong: {e}")
+                print(f"❌ Something went wrong: {e}")
+
         elif choice == "3":
             pm.list_sites()
 
@@ -63,14 +65,13 @@ def main():
             try:
                 length = int(length) if length else 12
                 if length < 6:
-                  print("❌ Password length must be at least 6!")
+                    print("❌ Password length must be at least 6!")
                 else:
-                  password = generate_password(length)
-                  print(f"🎲 Generated password: {password}")
+                    password = generate_password(length)
+                    print(f"🎲 Generated password: {password}")
             except ValueError:
-                  print("❌ Please enter a valid number!")
-                  
-          
+                print("❌ Please enter a valid number!")
+
         elif choice == "6":
             print("👋 Bye!")
             break
