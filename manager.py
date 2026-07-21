@@ -10,11 +10,11 @@ class PasswordManager:
 
     def __init__(self):
        """
-    Loads the encryption key and existing passwords
-    when the PasswordManager is created.
-    """
+       Loads the encryption key and existing passwords
+       when the PasswordManager is created.
+       """
        self.key = load_key()
-       self.passwords= load_passwords()
+       self.passwords = load_passwords()
 
     def add_password(self,site,username,password):
         """
@@ -22,7 +22,7 @@ class PasswordManager:
         Overwrites if site already exists.
         """
         encrypted = encrypt_password(password, self.key)
-        self.passwords[site]={
+        self.passwords[site] = {
             "username":username,
             "password":encrypted
         }
@@ -43,7 +43,7 @@ class PasswordManager:
                "password":decrypted
            } 
         else:
-            print(f"No pass found in'{site}'")
+            print(f"❌ No pass found in'{site}'")
             return None
     
     def list_sites(self):

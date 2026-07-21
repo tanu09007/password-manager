@@ -4,6 +4,11 @@ import os
 MASTER_PASSWORD_FILE = "master.hash"
 
 def hash_password(password):
+    """
+    Hashes a password using SHA256 algorithm.
+    Hashing is one-way — cannot be reversed.
+    Returns the hashed password as a hex string.
+    """
     return hashlib.sha256(password.encode()).hexdigest()
 
 def setup_master_password():

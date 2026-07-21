@@ -1,7 +1,7 @@
 from cryptography.fernet import Fernet
 
 def generate_key():
-    """Generates a new Fernet encryption
+    """Generates a new Fernet encryption key.
     Returns the key as bytes.
     """
     return  Fernet.generate_key()
@@ -26,8 +26,8 @@ def encrypt_password(password,key):
     using the Fernet key.
     Returns encrypted password as a string.
     """
-    f=Fernet(key)
-    encrypted=f.encrypt(password.encode())
+    f = Fernet(key)
+    encrypted = f.encrypt(password.encode())
     return encrypted.decode()
 
 def decrypt_password(encrypted_password,key):
